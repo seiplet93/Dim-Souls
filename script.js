@@ -209,7 +209,7 @@ function animate() {
   //   if (ogre.alive) {
   //     ogre.render();
   //   }
-  // smashyMove();
+  smashyMove();
   // movementHandler();
   smashy.cpuAttackState();
   player.render();
@@ -219,7 +219,7 @@ function animate() {
   if (
     player.attacking === true &&
     player.attackBox.x + player.ABWidth / 2 >= smashy.x - smashy.width / 2 &&
-    player.attackBox.x + player.ABWidth <= smashy.x + smashy.width &&
+    player.attackBox.x + player.ABWidth / 2 <= smashy.x + smashy.width / 2 &&
     player.y - player.ABHeight / 2 <= smashy.y + smashy.height / 2 &&
     player.y + player.ABHeight / 2 >= smashy.y - smashy.height / 2
     // player.attackBox.x <= smashy.x + smashy.width
@@ -230,9 +230,28 @@ function animate() {
     console.log(player.attackBox.x);
   } else if (
     player.attacking === true &&
-    player.attackBox.x - player.ABWidth / 2 <= smashy.x + smashy.width / 2
+    player.attackBox.x - player.ABWidth / 2 <= smashy.x + smashy.width / 2 &&
+    player.attackBox.x - player.ABWidth / 2 >= smashy.x - smashy.width / 2 &&
+    player.y - player.ABHeight / 2 <= smashy.y + smashy.height / 2 &&
+    player.y + player.ABHeight / 2 >= smashy.y - smashy.height / 2
   ) {
     console.log("right-side hit");
+  } else if (
+    player.attacking === true &&
+    player.attackBox.y - player.ABHeight / 2 <= smashy.y + smashy.height / 2 &&
+    player.attackBox.y - player.ABHeight / 2 >= smashy.y - smashy.height / 2 &&
+    player.x - player.ABWidth / 2 <= smashy.x + smashy.width / 2 &&
+    player.x + player.ABWidth / 2 >= smashy.x - smashy.width
+  ) {
+    console.log("bottom hit");
+  } else if (
+    player.attacking === true &&
+    player.attackBox.y + player.ABHeight / 2 >= smashy.y - smashy.height / 2 &&
+    player.attackBox.y + player.ABHeight / 2 <= smashy.y + smashy.height / 2 &&
+    player.x - player.ABWidth / 2 <= smashy.x + smashy.width / 2 &&
+    player.x + player.ABWidth / 2 >= smashy.x - smashy.width
+  ) {
+    console.log("top hit");
   }
 }
 
