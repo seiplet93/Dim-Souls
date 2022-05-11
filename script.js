@@ -105,18 +105,24 @@ class Char {
   // checks if cpu boss is in range +- 100 x/y values to the player,  then attacks
   cpuAttackState() {
     if (
-      smashy.x - player.x < 100 &&
-      smashy.x - player.x > -100 &&
-      smashy.y - player.y > -100 &&
-      smashy.y - player.y < 100
+      smashy.x - player.x <= 125 &&
+      smashy.x - player.x >= -125 &&
+      smashy.y - player.y >= -125 &&
+      smashy.y - player.y <= 125
     ) {
       // console.log("smashy in range");
 
-      smashy.attacking = true;
+      // smashy.attacking = true;
 
-      // setTimeout(() => {
-      //   smashy.attacking = false;
-      // }, 200);
+      setTimeout(smashyAttack, 1000);
+      function smashyAttack() {
+        smashy.attacking = true;
+      }
+
+      // if (smashy.attacking === true) {
+      //   setTimeout(() => {
+      //     smashy.attacking = true;
+      //   }, 2000);
     } else {
       smashy.attacking = false;
       // console.log("smashy out of range?");
@@ -196,8 +202,13 @@ const player = new Char(475, 650, "green", side / 2, side / 2, 200, 200, 200, {
 });
 
 const smashy = new Char(400, 200, "red", side, side, 150, 150, 1000, {
-  // attackBoxwidth: 500,
-  // attackBoxheight: 500,
+  x: 400,
+  y: 200,
+  color: "red",
+  width: side,
+  height: side,
+  ABWidth: 150,
+  ABHeight: 150,
   health: 1000,
   attackBox: {
     x: this.x, //- this.width,
@@ -208,29 +219,41 @@ const smashy = new Char(400, 200, "red", side, side, 150, 150, 1000, {
 });
 
 const smashyMove = function () {
-  let smashySpeed = 0.4;
+  let smashySpeed = 0.5;
   if (smashy.attacking === true) {
     smashySpeed = 0;
   } else if (player.y > smashy.y && player.x > smashy.x) {
     smashy.y += smashySpeed;
+    smashy.attackBox.y += smashySpeed;
     smashy.x += smashySpeed;
+    smashy.attackBox.x += smashySpeed;
   } else if (player.y < smashy.y && player.x < smashy.x) {
     smashy.y -= smashySpeed;
+    smashy.attackBox.y -= smashySpeed;
     smashy.x -= smashySpeed;
+    smashy.attackBox.x -= smashySpeed;
   } else if (player.y > smashy.y && player.x < smashy.x) {
     smashy.y += smashySpeed;
+    smashy.attackBox.y += smashySpeed;
     smashy.x -= smashySpeed;
+    smashy.attackBox.x -= smashySpeed;
   } else if (player.y < smashy.y && player.x > smashy.x) {
     smashy.y -= smashySpeed;
+    smashy.attackBox.y -= smashySpeed;
     smashy.x += smashySpeed;
+    smashy.attackBox.x += smashySpeed;
   } else if (player.x > smashy.x) {
     smashy.x += smashySpeed;
+    smashy.attackBox.x += smashySpeed;
   } else if (player.x < smashy.x) {
     smashy.x -= smashySpeed;
+    smashy.attackBox.x -= smashySpeed;
   } else if (player.y > smashy.y) {
     smashy.y += smashySpeed;
+    smashy.attackBox.y += smashySpeed;
   } else if (player.y < smashy.y) {
     smashy.y -= smashySpeed;
+    smashy.attackBox.y -= smashySpeed;
   }
 };
 // player.render();
@@ -274,7 +297,7 @@ function animate() {
   //   if (ogre.alive) {
   //     ogre.render();
   //   }
-  // smashyMove();
+  smashyMove();
   // movementHandler();
   smashy.cpuAttackState();
   player.render();
@@ -332,68 +355,71 @@ function animate() {
     console.log(smashy.health);
     console.log("top hit");
   }
-}
 
-//smashy hit detection
-if (
-  smashy.attacking === true &&
-  smashy.attackBox.x + smashy.ABWidth / 2 >= player.x - player.width / 2 &&
-  smashy.attackBox.x + smashy.ABWidth / 2 <= player.x + player.width / 2 &&
-  smashy.y - smashy.ABHeight / 2 <= player.y + player.height / 2 &&
-  smashy.y + smashy.ABHeight / 2 >= player.y - player.height / 2
-) {
-  // smashy.attacking = false;
-  player.health -= 50;
-  console.log("left smash");
-  // smashy.health -= 50;
-  // console.log(smashy.health);
-  // console.log(" left-side hit");
-  // console.log(player.x, player.y);
-  // console.log(player.attackBox.x);
-} else if (
-  smashy.attacking === true &&
-  smashy.attackBox.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
-  smashy.attackBox.x - smashy.ABWidth / 2 >= player.x - player.width / 2 &&
-  smashy.y - smashy.ABHeight / 2 <= player.y + player.height / 2 &&
-  smashy.y + smashy.ABHeight / 2 >= player.y - player.height / 2
-) {
-  smashy.attacking = false;
-  player.health -= 50;
-  console.log("right smash");
-  // player.attacking = false;
-  // smashy.health -= 50;
-  // console.log(smashy.health);
-  // console.log(player.attacking);
-  // console.log("right-side hit");
-} else if (
-  smashy.attacking === true &&
-  smashy.attackBox.y - smashy.ABHeight / 2 <= player.y + player.height / 2 &&
-  smashy.attackBox.y - smashy.ABHeight / 2 >= player.y - player.height / 2 &&
-  smashy.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
-  smashy.x + smashy.ABWidth / 2 >= player.x - player.width
-) {
-  smashy.attacking = false;
-  player.health -= 50;
-  console.log("bottom smash");
-  // player.attacking = false;
-  // smashy.health -= 50;
-  // console.log(smashy.health);
-  // console.log("bottom hit");
-} else if (
-  smashy.attacking === true &&
-  smashy.attackBox.y + smashy.ABHeight / 2 >= player.y - player.height / 2 &&
-  smashy.attackBox.y + smashy.ABHeight / 2 <= player.y + player.height / 2 &&
-  smashy.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
-  smashy.x + smashy.ABWidth / 2 >= player.x - player.width
-) {
-  smashy.attacking = false;
-  player.health -= 50;
-  console.log("top smash");
-  // player.attacking = false;
-  // smashy.health -= 50;
-  // console.log(smashy.health);
-  // console.log("top hit");
+  //smashy hit detect
+  if (
+    smashy.attacking === true &&
+    smashy.attackBox.x + smashy.ABWidth / 2 >= player.x - player.width / 2 &&
+    smashy.attackBox.x + smashy.ABWidth / 2 <= player.x + player.width / 2 &&
+    smashy.y - smashy.ABHeight / 2 <= player.y + player.height / 2 &&
+    smashy.y + smashy.ABHeight / 2 >= player.y - player.height / 2
+  ) {
+    // smashy.attacking = false;
+
+    player.health -= 0.3;
+    console.log(player.health);
+    console.log("right smash");
+    // smashy.health -= 50;
+    // console.log(smashy.health);
+    // console.log(" left-side hit");
+    // console.log(player.x, player.y);
+    // console.log(player.attackBox.x);
+  } else if (
+    smashy.attacking === true &&
+    smashy.attackBox.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
+    smashy.attackBox.x - smashy.ABWidth / 2 >= player.x - player.width / 2 &&
+    smashy.y - smashy.ABHeight / 2 <= player.y + player.height / 2 &&
+    smashy.y + smashy.ABHeight / 2 >= player.y - player.height / 2
+  ) {
+    // smashy.attacking = false;
+    player.health -= 0.3;
+    console.log("left smash");
+    // player.attacking = false;
+    // smashy.health -= 50;
+    // console.log(smashy.health);
+    // console.log(player.attacking);
+    // console.log("right-side hit");
+  } else if (
+    smashy.attacking === true &&
+    smashy.attackBox.y - smashy.ABHeight / 2 <= player.y + player.height / 2 &&
+    smashy.attackBox.y - smashy.ABHeight / 2 >= player.y - player.height / 2 &&
+    smashy.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
+    smashy.x + smashy.ABWidth / 2 >= player.x - player.width
+  ) {
+    // smashy.attacking = false;
+    player.health -= 0.3;
+    console.log("top smash");
+    // player.attacking = false;
+    // smashy.health -= 50;
+    // console.log(smashy.health);
+    // console.log("bottom hit");
+  } else if (
+    smashy.attacking === true &&
+    smashy.attackBox.y + smashy.ABHeight / 2 >= player.y - player.height / 2 &&
+    smashy.attackBox.y + smashy.ABHeight / 2 <= player.y + player.height / 2 &&
+    smashy.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
+    smashy.x + smashy.ABWidth / 2 >= player.x - player.width
+  ) {
+    // smashy.attacking = false;
+    player.health -= 0.3;
+    console.log("bottom smash");
+    // player.attacking = false;
+    // smashy.health -= 50;
+    // console.log(smashy.health);
+    // console.log("top hit");
+  }
 }
+console.log(smashy.ABHeight, smashy.attackBox.x, smashy.attackBox.y);
 
 animate();
 
