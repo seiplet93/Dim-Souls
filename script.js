@@ -156,7 +156,7 @@ const player = new Char(475, 650, "green", side / 2, side / 2, 200, 200, {
   },
 });
 
-const smashy = new Char(400, 50, "red", side, side, 150, 150, {
+const smashy = new Char(400, 200, "red", side, side, 150, 150, {
   // attackBoxwidth: 500,
   // attackBoxheight: 500,
   attackBox: {
@@ -219,12 +219,14 @@ function animate() {
   if (
     player.attacking === true &&
     player.attackBox.x + player.ABWidth / 2 >= smashy.x - smashy.width / 2 &&
-    player.attackBox.x < smashy.x //
+    player.attackBox.x + player.ABWidth <= smashy.x + smashy.width &&
+    player.y - player.ABHeight / 2 <= smashy.y + smashy.height / 2 &&
+    player.y + player.ABHeight / 2 >= smashy.y - smashy.height / 2
     // player.attackBox.x <= smashy.x + smashy.width
     // player.attackBox.y + player.attackBox.height >= smashy.y
   ) {
     console.log(" left-side hit");
-    console.log(player.x);
+    console.log(player.x, player.y);
     console.log(player.attackBox.x);
   } else if (
     player.attacking === true &&
@@ -232,7 +234,6 @@ function animate() {
   ) {
     console.log("right-side hit");
   }
-  // if ()
 }
 
 animate();
