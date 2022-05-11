@@ -5,15 +5,61 @@
   </head>
 
   <body>
-    <!-- main div? -->
+    <!-- main div? whole canvas-->
     <div style="position: relative">
-      <!--  -->
-      <div style="position: absolute">
+      <!-- top section -->
+      <div
+        style="
+          position: absolute;
+          display: flex;
+          width: 500px;
+          margin-top: 50px;
+          border: 1px;
+          border-color: white;
+          border-style: ridge;
+          margin-left: 20px;
+        "
+      >
         <!-- player health -->
-        <div style="background-color: red; height: 30px; width: 100px"></div>
+        <div
+          id="playerHealth"
+          style="
+            background-color: red;
+            height: 30px;
+            width: 100%;
+            display: flex;
+          "
+        >
+          Player
+        </div>
+      </div>
+      <div
+        style="
+          position: absolute;
+          display: flex;
+          width: 800px;
+          bottom: 0;
+          margin-bottom: 100px;
+          margin-left: 100px;
+          border: 1px;
+          border-color: white;
+          border-style: ridge;
+        "
+      >
         <!-- smashy  health -->
-        <div></div>
-        <div></div>
+        <div
+          id="smashyHealth"
+          style="
+            color: whitesmoke;
+            display: flex;
+            background-color: red;
+            height: 30px;
+            width: 100%;
+            bottom: 15;
+          "
+        >
+          Smashy
+        </div>
       </div>
       <canvas></canvas>
     </div>
