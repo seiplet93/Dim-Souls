@@ -51,12 +51,14 @@ class Char {
     // console.log(player.x, player.y, smashy.x, smashy.y);
     ctx.fillStyle = this.color;
     //side is 110. side / 2 = 55
-    ctx.fillRect(
-      this.x - this.width / 2,
-      this.y - this.height / 2,
-      this.width,
-      this.height
-    );
+    if (this.health > 0) {
+      ctx.fillRect(
+        this.x - this.width / 2,
+        this.y - this.height / 2,
+        this.width,
+        this.height
+      );
+    }
 
     // attack box fillrect, only active during attack
     if (this.attacking === true && this === player) {
@@ -76,7 +78,7 @@ class Char {
         // this.attackBox.width,
         // this.attackBox.height
       );
-    } else if (this.attacking === true) {
+    } else if (this.attacking === true && this.health > 0) {
       ctx.fillStyle = "yellow";
       ctx.fillRect(
         this.x - 75,
@@ -104,11 +106,14 @@ class Char {
 
   // checks if cpu boss is in range +- 100 x/y values to the player,  then attacks
   cpuAttackState() {
-    if (
+    if (smashy.health === 0) {
+      return this.cpuAttackState;
+    } else if (
       smashy.x - player.x <= 125 &&
       smashy.x - player.x >= -125 &&
       smashy.y - player.y >= -125 &&
-      smashy.y - player.y <= 125
+      smashy.y - player.y <= 125 &&
+      smashy.health > 0
     ) {
       // console.log("smashy in range");
 
@@ -266,10 +271,25 @@ function winCon() {
   if (player.health <= 0) {
     document.getElementById("vText").innerText = "You Died";
     document.getElementById("vText").style.color = "red";
+    window.cancelAnimationFrame(animate);
+    // cancelAnimation();
+    // smashy.attacking = false;
+    // smashySpeed = 0;
+    // player.attacking = false;
+    // playerSpeed = 0;
   } else if (smashy.health <= 0) {
     document.getElementById("vText").innerText = "Victory Achieved";
     document.getElementById("vText").style.color = "yellow";
+
+    // cancelAnimation();
+    // smashy.attacking = false;
+    // smashySpeed = 0;
+    // player.attacking = false;
+    // playerSpeed = 0;
   }
+}
+function cancelAnimation() {
+  window.cancelAnimationFrame(animate);
 }
 
 function animate() {
@@ -277,21 +297,23 @@ function animate() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   // console.log(currentKeys);
-  if (currentKeys["ArrowUp"]) {
-    player.y -= playerSpeed;
-    player.attackBox.y -= playerSpeed;
-  }
-  if (currentKeys["ArrowDown"]) {
-    player.y += playerSpeed;
-    player.attackBox.y += playerSpeed;
-  }
-  if (currentKeys["ArrowLeft"]) {
-    player.x -= playerSpeed;
-    player.attackBox.x -= playerSpeed;
-  }
-  if (currentKeys["ArrowRight"]) {
-    player.x += playerSpeed;
-    player.attackBox.x += playerSpeed;
+  if (player.health > 0) {
+    if (currentKeys["ArrowUp"]) {
+      player.y -= playerSpeed;
+      player.attackBox.y -= playerSpeed;
+    }
+    if (currentKeys["ArrowDown"]) {
+      player.y += playerSpeed;
+      player.attackBox.y += playerSpeed;
+    }
+    if (currentKeys["ArrowLeft"]) {
+      player.x -= playerSpeed;
+      player.attackBox.x -= playerSpeed;
+    }
+    if (currentKeys["ArrowRight"]) {
+      player.x += playerSpeed;
+      player.attackBox.x += playerSpeed;
+    }
   }
   // if (currentKeys[" "]) {
   //   player.attacking = true;
