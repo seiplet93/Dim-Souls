@@ -13,7 +13,7 @@ let smashySpeed = 3;
 // const gameLoopInterval = setInterval(gameLoop, 60);
 
 class Char {
-  constructor(x, y, color, width, height, ABWidth, ABHeight, health) {
+  constructor(x, y, color, width, height, ABWidth, ABHeight, health, imageSrc) {
     this.x = x;
     this.y = y;
     this.color = color;
@@ -24,6 +24,8 @@ class Char {
     this.health = health;
     this.alive = true;
     this.attacking;
+    // this.image = new Image();
+    // this.image.src = imageSrc;
 
     this.attackBox = {
       x,
@@ -109,10 +111,10 @@ class Char {
     if (smashy.health === 0) {
       return this.cpuAttackState;
     } else if (
-      smashy.x - player.x <= 125 &&
-      smashy.x - player.x >= -125 &&
-      smashy.y - player.y >= -125 &&
-      smashy.y - player.y <= 125 &&
+      smashy.x - player.x <= 130 &&
+      smashy.x - player.x >= -130 &&
+      smashy.y - player.y >= -130 &&
+      smashy.y - player.y <= 130 &&
       smashy.health > 0
     ) {
       // console.log("smashy in range");
@@ -271,7 +273,7 @@ function winCon() {
   if (player.health <= 0) {
     document.getElementById("vText").innerText = "You Died";
     document.getElementById("vText").style.color = "red";
-    window.cancelAnimationFrame(animate);
+    // window.cancelAnimationFrame(animate);
     // cancelAnimation();
     // smashy.attacking = false;
     // smashySpeed = 0;
@@ -341,7 +343,7 @@ function animate() {
   if (
     player.attacking === true &&
     player.attackBox.x + player.ABWidth / 2 >= smashy.x - smashy.width / 2 &&
-    player.attackBox.x + player.ABWidth / 2 <= smashy.x + smashy.width / 2 &&
+    player.attackBox.x + player.ABWidth / 2 <= smashy.x + smashy.width &&
     player.y - player.ABHeight / 2 <= smashy.y + smashy.height / 2 &&
     player.y + player.ABHeight / 2 >= smashy.y - smashy.height / 2
     // player.attackBox.x <= smashy.x + smashy.width
@@ -355,7 +357,7 @@ function animate() {
   } else if (
     player.attacking === true &&
     player.attackBox.x - player.ABWidth / 2 <= smashy.x + smashy.width / 2 &&
-    player.attackBox.x - player.ABWidth / 2 >= smashy.x - smashy.width / 2 &&
+    player.attackBox.x - player.ABWidth / 2 >= smashy.x - smashy.width &&
     player.y - player.ABHeight / 2 <= smashy.y + smashy.height / 2 &&
     player.y + player.ABHeight / 2 >= smashy.y - smashy.height / 2
   ) {
@@ -367,7 +369,7 @@ function animate() {
   } else if (
     player.attacking === true &&
     player.attackBox.y - player.ABHeight / 2 <= smashy.y + smashy.height / 2 &&
-    player.attackBox.y - player.ABHeight / 2 >= smashy.y - smashy.height / 2 &&
+    player.attackBox.y - player.ABHeight / 2 >= smashy.y - smashy.height &&
     player.x - player.ABWidth / 2 <= smashy.x + smashy.width / 2 &&
     player.x + player.ABWidth / 2 >= smashy.x - smashy.width / 2
   ) {
@@ -379,7 +381,7 @@ function animate() {
   } else if (
     player.attacking === true &&
     player.attackBox.y + player.ABHeight / 2 >= smashy.y - smashy.height / 2 &&
-    player.attackBox.y + player.ABHeight / 2 <= smashy.y + smashy.height / 2 &&
+    player.attackBox.y + player.ABHeight / 2 <= smashy.y + smashy.height &&
     player.x - player.ABWidth / 2 <= smashy.x + smashy.width / 2 &&
     player.x + player.ABWidth / 2 >= smashy.x - smashy.width / 2
   ) {
@@ -393,7 +395,7 @@ function animate() {
   if (
     smashy.attacking === true &&
     smashy.attackBox.x + smashy.ABWidth / 2 >= player.x - player.width / 2 &&
-    smashy.attackBox.x + smashy.ABWidth / 2 <= player.x + player.width / 2 &&
+    smashy.attackBox.x + smashy.ABWidth / 2 <= player.x + player.width &&
     smashy.y - smashy.ABHeight / 2 <= player.y + player.height / 2 &&
     smashy.y + smashy.ABHeight / 2 >= player.y - player.height / 2
   ) {
@@ -411,7 +413,7 @@ function animate() {
   } else if (
     smashy.attacking === true &&
     smashy.attackBox.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
-    smashy.attackBox.x - smashy.ABWidth / 2 >= player.x - player.width / 2 &&
+    smashy.attackBox.x - smashy.ABWidth / 2 >= player.x - player.width &&
     smashy.y - smashy.ABHeight / 2 <= player.y + player.height / 2 &&
     smashy.y + smashy.ABHeight / 2 >= player.y - player.height / 2
   ) {
@@ -428,7 +430,7 @@ function animate() {
   } else if (
     smashy.attacking === true &&
     smashy.attackBox.y - smashy.ABHeight / 2 <= player.y + player.height / 2 &&
-    smashy.attackBox.y - smashy.ABHeight / 2 >= player.y - player.height / 2 &&
+    smashy.attackBox.y - smashy.ABHeight / 2 >= player.y - player.height &&
     smashy.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
     smashy.x + smashy.ABWidth / 2 >= player.x - player.width
   ) {
@@ -443,7 +445,7 @@ function animate() {
   } else if (
     smashy.attacking === true &&
     smashy.attackBox.y + smashy.ABHeight / 2 >= player.y - player.height / 2 &&
-    smashy.attackBox.y + smashy.ABHeight / 2 <= player.y + player.height / 2 &&
+    smashy.attackBox.y + smashy.ABHeight / 2 <= player.y + player.height &&
     smashy.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
     smashy.x + smashy.ABWidth / 2 >= player.x - player.width
   ) {
