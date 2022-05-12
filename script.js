@@ -6,6 +6,7 @@ canvas.height = 1000;
 //changed side to 100 to make numbers more even
 const side = 150;
 let smashySpeed = 3;
+const resetB = document.querySelector("#resetBtn");
 
 // ctx.fillStyle = "black";
 // ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -426,7 +427,7 @@ function animate() {
     // player.attackBox.y + player.attackBox.height >= smashy.y
   ) {
     player.attacking = false;
-    smashy.health -= 2;
+    smashy.health -= 1.5;
     document.querySelector("#smashyHealth").style.width = smashy.health + "%";
     console.log(smashy.health);
     console.log(" left-side hit");
@@ -438,7 +439,7 @@ function animate() {
     player.y + player.ABHeight / 2 >= smashy.y - smashy.height / 2
   ) {
     player.attacking = false;
-    smashy.health -= 2;
+    smashy.health -= 1.5;
     document.querySelector("#smashyHealth").style.width = smashy.health + "%";
     console.log(player.attacking);
     console.log("right-side hit");
@@ -450,7 +451,7 @@ function animate() {
     player.x + player.ABWidth / 2 >= smashy.x - smashy.width / 2
   ) {
     player.attacking = false;
-    smashy.health -= 2;
+    smashy.health -= 1.5;
     document.querySelector("#smashyHealth").style.width = smashy.health + "%";
     console.log(smashy.health);
     console.log("bottom hit");
@@ -462,82 +463,93 @@ function animate() {
     player.x + player.ABWidth / 2 >= smashy.x - smashy.width / 2
   ) {
     player.attacking = false;
-    smashy.health -= 2;
+    smashy.health -= 1.5;
     document.querySelector("#smashyHealth").style.width = smashy.health + "%";
     console.log("top hit");
   }
 
   //smashy hit detect
-  if (
-    smashy.attacking === true &&
-    smashy.attackBox.x + smashy.ABWidth / 2 >= player.x - player.width / 2 &&
-    smashy.attackBox.x + smashy.ABWidth / 2 <= player.x + player.width &&
-    smashy.y - smashy.ABHeight / 2 <= player.y + player.height / 2 &&
-    smashy.y + smashy.ABHeight / 2 >= player.y - player.height / 2
-  ) {
-    smashy.attacking = false;
+  if (player.health > 0) {
+    if (
+      smashy.attacking === true &&
+      smashy.attackBox.x + smashy.ABWidth / 2 >= player.x - player.width / 2 &&
+      smashy.attackBox.x + smashy.ABWidth / 2 <= player.x + player.width &&
+      smashy.y - smashy.ABHeight / 2 <= player.y + player.height / 2 &&
+      smashy.y + smashy.ABHeight / 2 >= player.y - player.height / 2
+    ) {
+      smashy.attacking = false;
 
-    player.health -= 0.1;
-    document.querySelector("#playerHealth").style.width = player.health + "%";
-    console.log(player.health);
-    console.log("right smash");
-    // smashy.health -= 50;
-    // console.log(smashy.health);
-    // console.log(" left-side hit");
-    // console.log(player.x, player.y);
-    // console.log(player.attackBox.x);
-  } else if (
-    smashy.attacking === true &&
-    smashy.attackBox.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
-    smashy.attackBox.x - smashy.ABWidth / 2 >= player.x - player.width &&
-    smashy.y - smashy.ABHeight / 2 <= player.y + player.height / 2 &&
-    smashy.y + smashy.ABHeight / 2 >= player.y - player.height / 2
-  ) {
-    smashy.attacking = false;
-    player.health -= 0.1;
+      player.health -= 0.3;
+      document.querySelector("#playerHealth").style.width = player.health + "%";
+      console.log(player.health);
+      console.log("right smash");
+      // smashy.health -= 50;
+      // console.log(smashy.health);
+      // console.log(" left-side hit");
+      // console.log(player.x, player.y);
+      // console.log(player.attackBox.x);
+    } else if (
+      smashy.attacking === true &&
+      smashy.attackBox.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
+      smashy.attackBox.x - smashy.ABWidth / 2 >= player.x - player.width &&
+      smashy.y - smashy.ABHeight / 2 <= player.y + player.height / 2 &&
+      smashy.y + smashy.ABHeight / 2 >= player.y - player.height / 2
+    ) {
+      smashy.attacking = false;
+      player.health -= 0.3;
 
-    document.querySelector("#playerHealth").style.width = player.health + "%";
-    console.log("left smash");
-    // player.attacking = false;
-    // smashy.health -= 50;
-    // console.log(smashy.health);
-    // console.log(player.attacking);
-    // console.log("right-side hit");
-  } else if (
-    smashy.attacking === true &&
-    smashy.attackBox.y - smashy.ABHeight / 2 <= player.y + player.height / 2 &&
-    smashy.attackBox.y - smashy.ABHeight / 2 >= player.y - player.height &&
-    smashy.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
-    smashy.x + smashy.ABWidth / 2 >= player.x - player.width
-  ) {
-    // smashy.attacking = false;
-    player.health -= 0.1;
-    document.querySelector("#playerHealth").style.width = player.health + "%";
-    console.log("top smash");
-    // player.attacking = false;
-    // smashy.health -= 50;
-    // console.log(smashy.health);
-    // console.log("bottom hit");
-  } else if (
-    smashy.attacking === true &&
-    smashy.attackBox.y + smashy.ABHeight / 2 >= player.y - player.height / 2 &&
-    smashy.attackBox.y + smashy.ABHeight / 2 <= player.y + player.height &&
-    smashy.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
-    smashy.x + smashy.ABWidth / 2 >= player.x - player.width
-  ) {
-    // smashy.attacking = false;
-    player.health -= 0.1;
-    document.querySelector("#playerHealth").style.width = player.health + "%";
-    console.log("bottom smash");
-    // player.attacking = false;
-    // smashy.health -= 50;
-    // console.log(smashy.health);
-    // console.log("top hit");
+      document.querySelector("#playerHealth").style.width = player.health + "%";
+      console.log("left smash");
+      // player.attacking = false;
+      // smashy.health -= 50;
+      // console.log(smashy.health);
+      // console.log(player.attacking);
+      // console.log("right-side hit");
+    } else if (
+      smashy.attacking === true &&
+      smashy.attackBox.y - smashy.ABHeight / 2 <=
+        player.y + player.height / 2 &&
+      smashy.attackBox.y - smashy.ABHeight / 2 >= player.y - player.height &&
+      smashy.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
+      smashy.x + smashy.ABWidth / 2 >= player.x - player.width
+    ) {
+      // smashy.attacking = false;
+      player.health -= 0.3;
+      document.querySelector("#playerHealth").style.width = player.health + "%";
+      console.log("top smash");
+      // player.attacking = false;
+      // smashy.health -= 50;
+      // console.log(smashy.health);
+      // console.log("bottom hit");
+    } else if (
+      smashy.attacking === true &&
+      smashy.attackBox.y + smashy.ABHeight / 2 >=
+        player.y - player.height / 2 &&
+      smashy.attackBox.y + smashy.ABHeight / 2 <= player.y + player.height &&
+      smashy.x - smashy.ABWidth / 2 <= player.x + player.width / 2 &&
+      smashy.x + smashy.ABWidth / 2 >= player.x - player.width
+    ) {
+      // smashy.attacking = false;
+      player.health -= 0.3;
+      document.querySelector("#playerHealth").style.width = player.health + "%";
+      console.log("bottom smash");
+      // player.attacking = false;
+      // smashy.health -= 50;
+      // console.log(smashy.health);
+      // console.log("top hit");
+    }
   }
 }
-console.log(smashy.ABHeight, smashy.attackBox.x, smashy.attackBox.y);
+// console.log(smashy.ABHeight, smashy.attackBox.x, smashy.attackBox.y);
 
 animate();
+// function resetButton() {}
+console.log(document.getElementById("resetBtn"));
+document.getElementById("resetBtn").addEventListener("click", function () {
+  resetGame();
+  document.getElementById("resetBtn").blur();
+  console.log("reset?");
+});
 
 document.addEventListener("keydown", movementHandler);
 function movementHandler(e) {
@@ -645,7 +657,23 @@ function stopMovement(e) {
 // });
 console.log(player);
 console.log(smashy);
-
+const resetGame = function () {
+  console.log("resetgamepls");
+  player.x = 475;
+  player.attackBox.x = 475;
+  player.y = 650;
+  player.attackBox.y = 650;
+  player.health = 100;
+  smashy.x = 400;
+  smashy.attackBox.x = 400;
+  smashy.attackBox.y = 200;
+  smashy.y = 200;
+  smashy.health = 100;
+  document.getElementById("vText").innerText = " ";
+  document.querySelector("#smashyHealth").style.width = smashy.health + "%";
+  document.querySelector("#playerHealth").style.width = player.health + "%";
+  console.log(player.health, smashy.health);
+};
 // const smashyMove = function () {
 //   let smashySpeed = 3;
 //   if (smashy.attacking === true) {
