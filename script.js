@@ -12,8 +12,25 @@ let smashySpeed = 3;
 
 // const gameLoopInterval = setInterval(gameLoop, 60);
 
+class Sprite {
+  constructor({ x, y, imageSrc, width, height }) {
+    this.x = x;
+    this.y = y;
+    this.image = new Image();
+    this.image.src = imageSrc;
+    this.width = width;
+    this.height = height;
+  }
+  render() {
+    ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+  }
+  update() {
+    this.render();
+  }
+}
+
 class Char {
-  constructor(x, y, color, width, height, ABWidth, ABHeight, health, imageSrc) {
+  constructor(x, y, color, width, height, ABWidth, ABHeight, health) {
     this.x = x;
     this.y = y;
     this.color = color;
@@ -77,6 +94,7 @@ class Char {
         // 500
         this.ABWidth,
         this.ABHeight
+
         // this.attackBox.width,
         // this.attackBox.height
       );
@@ -189,6 +207,14 @@ class Char {
 // creating character object from Char
 // smashy starting slight right to make room for stabby?
 // const player = new Char(475, 650, "green", side / 2, side / 2, 500, 500);
+const background = new Sprite({
+  x: 0,
+  y: 0,
+  width: 1000,
+  height: 1000,
+  imageSrc: "./img/background.png",
+});
+
 const player = new Char(475, 650, "green", side / 2, side / 2, 200, 200, 100, {
   x: 475,
   y: 650,
@@ -206,6 +232,13 @@ const player = new Char(475, 650, "green", side / 2, side / 2, 200, 200, 100, {
     width: 500,
     height: 150,
   },
+});
+const playerSprite = new Sprite({
+  x: player.x,
+  y: player.y,
+  width: player.width,
+  height: player.height,
+  imageSrc: "./img/pfnn.png",
 });
 
 const smashy = new Char(400, 200, "red", side, side, 150, 150, 100, {
@@ -298,6 +331,8 @@ function animate() {
   window.requestAnimationFrame(animate);
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+  background.update();
+  playerSprite.update();
   // console.log(currentKeys);
   if (player.health > 0) {
     if (currentKeys["ArrowUp"]) {
