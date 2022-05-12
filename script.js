@@ -4,7 +4,7 @@ canvas.width = 1000;
 canvas.height = 1000;
 // side  = measure of one standard smashy side, player side -  50, stabby ??
 //changed side to 100 to make numbers more even
-const side = 100;
+const side = 150;
 let smashySpeed = 3;
 
 // ctx.fillStyle = "black";
@@ -30,7 +30,7 @@ class Sprite {
 }
 
 class Char {
-  constructor(x, y, color, width, height, ABWidth, ABHeight, health) {
+  constructor(x, y, color, width, height, ABWidth, ABHeight, health, imageSrc) {
     this.x = x;
     this.y = y;
     this.color = color;
@@ -41,6 +41,8 @@ class Char {
     this.health = health;
     this.alive = true;
     this.attacking;
+    this.image = new Image();
+    this.image.src = imageSrc;
     // this.image = new Image();
     // this.image.src = imageSrc;
 
@@ -71,12 +73,19 @@ class Char {
     ctx.fillStyle = this.color;
     //side is 110. side / 2 = 55
     if (this.health > 0) {
-      ctx.fillRect(
+      ctx.drawImage(
+        this.image,
         this.x - this.width / 2,
         this.y - this.height / 2,
         this.width,
         this.height
       );
+      // ctx.fillRect(
+      //   this.x - this.width / 2,
+      //   this.y - this.height / 2,
+      //   this.width,
+      //   this.height
+      // );
     }
 
     // attack box fillrect, only active during attack
@@ -98,7 +107,11 @@ class Char {
         // this.attackBox.width,
         // this.attackBox.height
       );
-    } else if (this.attacking === true && this.health > 0) {
+    } else if (
+      this.attacking === true &&
+      this.health > 0 &&
+      player.health > 0
+    ) {
       ctx.fillStyle = "yellow";
       ctx.fillRect(
         this.x - 75,
@@ -112,7 +125,9 @@ class Char {
       );
     }
   }
-
+  update() {
+    this.render();
+  }
   // attack state for the plater, timesout after 100ms so it doesnt  stick
   attackState = function () {
     player.attacking = true;
@@ -129,10 +144,10 @@ class Char {
     if (smashy.health === 0) {
       return this.cpuAttackState;
     } else if (
-      smashy.x - player.x <= 130 &&
-      smashy.x - player.x >= -130 &&
-      smashy.y - player.y >= -130 &&
-      smashy.y - player.y <= 130 &&
+      smashy.x - player.x <= 120 &&
+      smashy.x - player.x >= -120 &&
+      smashy.y - player.y >= -120 &&
+      smashy.y - player.y <= 120 &&
       smashy.health > 0
     ) {
       // console.log("smashy in range");
@@ -215,48 +230,70 @@ const background = new Sprite({
   imageSrc: "./img/background.png",
 });
 
-const player = new Char(475, 650, "green", side / 2, side / 2, 200, 200, 100, {
-  x: 475,
-  y: 650,
-  color: "green",
-  width: side / 2,
-  height: side / 2,
-  ABWidth: 200,
-  ABHeight: 200,
-  health: 100,
-  // attackBoxwidth: 500,
-  // attackBoxheight: 500,
-  attackBox: {
-    x: this.x, // - 86,
-    y: this.y, // - 86,
-    width: 500,
-    height: 150,
-  },
-});
-const playerSprite = new Sprite({
-  x: player.x,
-  y: player.y,
-  width: player.width,
-  height: player.height,
-  imageSrc: "./img/pfnn.png",
-});
+const player = new Char(
+  475,
+  650,
+  "green",
+  side / 2,
+  side / 2,
+  200,
+  200,
+  100,
+  "./img/pfnn.png",
+  {
+    x: 475,
+    y: 650,
+    color: "green",
+    width: side / 2,
+    height: side / 2,
+    ABWidth: 200,
+    ABHeight: 200,
+    health: 100,
+    // imageSrc: "./img/pfnn.png",
+    // attackBoxwidth: 500,
+    // attackBoxheight: 500,
+    attackBox: {
+      x: this.x, // - 86,
+      y: this.y, // - 86,
+      width: 500,
+      height: 150,
+    },
+  }
+);
+// const playerSprite = new Sprite({
+//   x: player.x,
+//   y: player.y,
+//   width: player.width,
+//   height: player.height,
+// });
 
-const smashy = new Char(400, 200, "red", side, side, 150, 150, 100, {
-  x: 400,
-  y: 200,
-  color: "red",
-  width: side,
-  height: side,
-  ABWidth: 150,
-  ABHeight: 150,
-  health: 100,
-  attackBox: {
-    x: this.x, //- this.width,
-    y: this.y, //- this.height,
-    width: 900,
-    height: 150,
-  },
-});
+const smashy = new Char(
+  400,
+  200,
+  "red",
+  side,
+  side,
+  150,
+  150,
+  100,
+  "./img/SPainted.png",
+  {
+    x: 400,
+    y: 200,
+    color: "red",
+    width: side,
+    height: side,
+    ABWidth: 150,
+    ABHeight: 150,
+    health: 100,
+    attackBox: {
+      x: this.x, //- this.width,
+      y: this.y, //- this.height,
+      width: 900,
+      height: 150,
+    },
+  }
+);
 
 const smashyMove = function () {
   let smashySpeed = 0.5;
@@ -299,7 +336,7 @@ const smashyMove = function () {
 // player.render();
 // smashy.render();
 
-let playerSpeed = 3;
+let playerSpeed = 2;
 const currentKeys = {};
 
 function winCon() {
@@ -332,7 +369,10 @@ function animate() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   background.update();
-  playerSprite.update();
+  player.update();
+  player.render();
+
+  // playerSprite.update();
   // console.log(currentKeys);
   if (player.health > 0) {
     if (currentKeys["ArrowUp"]) {
@@ -369,9 +409,10 @@ function animate() {
   smashyMove();
   // movementHandler();
   smashy.cpuAttackState();
-  player.render();
+
   smashy.render();
   winCon();
+
   // movementAnimate();
 
   //player hit detection
