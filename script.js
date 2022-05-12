@@ -262,6 +262,16 @@ const smashyMove = function () {
 let playerSpeed = 3;
 const currentKeys = {};
 
+function winCon() {
+  if (player.health <= 0) {
+    document.getElementById("vText").innerText = "You Died";
+    document.getElementById("vText").style.color = "red";
+  } else if (smashy.health <= 0) {
+    document.getElementById("vText").innerText = "Victory Achieved";
+    document.getElementById("vText").style.color = "yellow";
+  }
+}
+
 function animate() {
   window.requestAnimationFrame(animate);
   ctx.fillStyle = "black";
@@ -302,6 +312,7 @@ function animate() {
   smashy.cpuAttackState();
   player.render();
   smashy.render();
+  winCon();
   // movementAnimate();
 
   //player hit detection
@@ -336,7 +347,7 @@ function animate() {
     player.attackBox.y - player.ABHeight / 2 <= smashy.y + smashy.height / 2 &&
     player.attackBox.y - player.ABHeight / 2 >= smashy.y - smashy.height / 2 &&
     player.x - player.ABWidth / 2 <= smashy.x + smashy.width / 2 &&
-    player.x + player.ABWidth / 2 >= smashy.x - smashy.width
+    player.x + player.ABWidth / 2 >= smashy.x - smashy.width / 2
   ) {
     player.attacking = false;
     smashy.health -= 2;
@@ -348,7 +359,7 @@ function animate() {
     player.attackBox.y + player.ABHeight / 2 >= smashy.y - smashy.height / 2 &&
     player.attackBox.y + player.ABHeight / 2 <= smashy.y + smashy.height / 2 &&
     player.x - player.ABWidth / 2 <= smashy.x + smashy.width / 2 &&
-    player.x + player.ABWidth / 2 >= smashy.x - smashy.width
+    player.x + player.ABWidth / 2 >= smashy.x - smashy.width / 2
   ) {
     player.attacking = false;
     smashy.health -= 2;
