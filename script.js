@@ -299,7 +299,7 @@ const smashy = new Char(
 const smashyMove = function () {
   let smashySpeed = 0.5;
   if (smashy.attacking === true) {
-    smashySpeed = 0;
+    smashySpeed = 0.5;
   } else if (player.y > smashy.y && player.x > smashy.x) {
     smashy.y += smashySpeed;
     smashy.attackBox.y += smashySpeed;
@@ -344,6 +344,7 @@ function winCon() {
   if (player.health <= 0) {
     document.getElementById("vText").innerText = "You Died";
     document.getElementById("vText").style.color = "red";
+    document.querySelector("#playerHealth").style.width = player.health + "%";
     // window.cancelAnimationFrame(animate);
     // cancelAnimation();
     // smashy.attacking = false;
@@ -353,7 +354,7 @@ function winCon() {
   } else if (smashy.health <= 0) {
     document.getElementById("vText").innerText = "Victory Achieved";
     document.getElementById("vText").style.color = "yellow";
-
+    document.querySelector("#playerHealth").style.width = player.health + "%";
     // cancelAnimation();
     // smashy.attacking = false;
     // smashySpeed = 0;
