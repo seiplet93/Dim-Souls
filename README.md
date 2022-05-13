@@ -28,7 +28,7 @@ This top-down 2D action-game has the player control the Picked-Posessed, with th
 
 ## Post-Project Reflection
 
-https://seiplet93.github.io/Dim-Souls/
+[Deployed URL](https://seiplet93.github.io/Dim-Souls/)
 I used Javascript, HTML5, canvas, and some styling for this project so far. In this game you play as a character who's sole purpose is to defeat the AI enemy. I chose to make this project as a personal challenge, but also because I thought it would be fun to recreate a favorite game of mine into this style.
 The game is in a functional state at the moment, but there are some things to fix. The rate at which the player and the AI attack is too fast. I've adjusted the rate at which health values are reduced because of this. I also need to implement collision to the border of the canvas as well as around the pillars in the boss room. This project was definitely a challenge I set for myself, and I think I did OK at accomplishing it. I learned a lot more about OOP (even though I'm still shaky on some concepts). My code is still an absolute mess, and cleaning it up will be the next step I take to make the project better. Adding in the second boss is after that. There is also an issue where performance is varying based on the PC the game is running on.
 
