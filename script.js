@@ -593,9 +593,11 @@ function movementHandler(e) {
 }
 document.addEventListener("keypress", attackOnly);
 function attackOnly(e) {
-  switch (e.key) {
-    case " ":
-      player.attackState();
+  if (player.health > 0) {
+    switch (e.key) {
+      case " ":
+        player.attackState();
+    }
   }
 }
 
