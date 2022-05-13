@@ -35,5 +35,5 @@ The game is in a functional state at the moment, but there are some things to fi
 Sources:
 
 - Chris Weaver: Sprite artwork for both bosses
-- Za'hi Cartography: Background image https://www.patreon.com/posts/ornstein-and-50564364
-- Chris Courses: Fighting game tutorial reference https://www.youtube.com/watch?v=vyqbNFMDRGQ
+- Za'hi Cartography: [Background image](https://www.patreon.com/posts/ornstein-and-50564364)
+- Chris Courses: [Fighting game tutorial reference](https://www.youtube.com/watch?v=vyqbNFMDRGQ)
